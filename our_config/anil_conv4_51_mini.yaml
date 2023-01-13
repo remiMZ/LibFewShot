@@ -10,12 +10,11 @@ n_gpu: 1
 seed: 0
 deterministic: true
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
 train_episode: 2000
 test_episode: 600
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -28,7 +27,9 @@ use_memory: false
 augment: true
 augment_times: 1
 augment_times_query: 1
-data_root: /data/wzy/miniImageNet--ravi
+data_root: 
+  train_data: /data/wzy/miniImageNet--ravi
+  test_data: /data/wzy/miniImageNet--ravi 
 #! optimizer
 lr_scheduler:
   kwargs:
@@ -39,7 +40,7 @@ optimizer:
   kwargs:
     lr: 0.001
   name: Adam
-  other: null
+  other: ~
 #! backbone
 backbone:
   kwargs:
@@ -63,7 +64,7 @@ result_root: ./results
 #! other
 log_interval: 100
 log_level: info
-log_name: null
+log_name: ~
 log_paramerter: false
 pretrain_path: ~
 resume: false
@@ -73,7 +74,3 @@ save_part:
   - emb_func  
 parallel_part:
   - emb_func
-
-
-
-

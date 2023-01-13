@@ -1,21 +1,21 @@
 includes:
-- headers/data.yaml
-- headers/device.yaml
-- headers/misc.yaml
-- headers/model.yaml
-- headers/optimizer.yaml
+  - headers/data.yaml
+  - headers/device.yaml
+  - headers/misc.yaml
+  - headers/model.yaml
+  - headers/optimizer.yaml
 #! device
 device_ids: 1
 n_gpu: 1
 seed: 0
 deterministic: true
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
 train_episode: 4000
 test_episode: 600
+batch_size: 64
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -35,7 +35,6 @@ lr_scheduler:
     gamma: 0.05
     step_size: 25
   name: StepLR
-
 optimizer:
   kwargs:
     betas:
@@ -43,7 +42,7 @@ optimizer:
     - 0.9
     lr: 0.001
   name: Adam
-  other: null
+  other: ~
 #! backbone
 backbone:
   kwargs:
@@ -62,15 +61,13 @@ result_root: ./results
 #! other
 log_interval: 100
 log_level: info
-log_name: null
+log_name: ~
 log_paramerter: false
 pretrain_path: ~
 resume: true
-resume_path: ./results/ConvMNet-miniImageNet--ravi-resnet18-5-1-Dec-28-2021-06-43-54
-tb_scale: 6.666666666666667
-tag: null
-workers: 16
 resume_path: ~
+tb_scale: 6.666666666666667
+tag: ~
 save_interval: 10
 save_part:
   - emb_func  

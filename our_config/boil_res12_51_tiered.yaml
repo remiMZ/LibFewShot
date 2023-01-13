@@ -1,23 +1,21 @@
 includes:
-- headers/data.yaml
-- headers/device.yaml
-- headers/misc.yaml
-- headers/model.yaml
-- headers/optimizer.yaml
-- classifiers/BOIL.yaml
+  - headers/data.yaml
+  - headers/device.yaml
+  - headers/misc.yaml
+  - headers/model.yaml
+  - headers/optimizer.yaml
 #! device
 device_ids: 1
 n_gpu: 1
 seed: 0
 deterministic: true
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
+val_per_epoch: 5
 train_episode: 5000
 test_episode: 600
-val_per_epoch: 1
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -65,7 +63,7 @@ result_root: ./results
 #! other
 log_interval: 100
 log_level: info
-log_name: null
+log_name: ~
 log_paramerter: false
 pretrain_path: ~
 resume: false

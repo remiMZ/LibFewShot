@@ -1,24 +1,20 @@
 includes:
-- headers/data.yaml
-- headers/device.yaml
-- headers/misc.yaml
-- headers/model.yaml
-- headers/optimizer.yaml
-- classifiers/BOIL.yaml
-- backbones/Conv64F.yaml
+  - headers/data.yaml
+  - headers/device.yaml
+  - headers/misc.yaml
+  - headers/model.yaml
+  - headers/optimizer.yaml
 #! device
 device_ids: 1
 n_gpu: 1
 seed: 0
 deterministic: true
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
 train_episode: 2000
 test_episode: 600
-val_per_epoch: 100
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -38,7 +34,6 @@ lr_scheduler:
     gamma: 1.0
     step_size: 10
   name: StepLR
-
 optimizer:
   kwargs:
     lr: 0.001

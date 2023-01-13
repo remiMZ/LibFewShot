@@ -12,12 +12,12 @@ n_gpu: 4
 seed: 0
 deterministic: true
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
-train_episode: 2000
+train_episode: 5000
 test_episode: 600
+batch_size: 64
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -37,7 +37,6 @@ lr_scheduler:
     T_max: 100
     eta_min: 0
   name: CosineAnnealingLR
-
 optimizer:
   kwargs:
     lr: 0.1
@@ -45,7 +44,7 @@ optimizer:
     nesterov: true
     weight_decay: 0.0005
   name: SGD
-  other: null
+  other: ~
 #! backbone
 backbone:
   kwargs:
@@ -67,13 +66,13 @@ result_root: ./results
 #! other
 log_interval: 100
 log_level: info
-log_name: null
+log_name: ~
 log_paramerter: false
 pretrain_path: ~
 resume: false
-tb_scale: 3.3333333333333335
-tag: null
 resume_path: ~
+tb_scale: 3.3333333333333335
+tag: ~
 save_interval: 10
 save_part:
   - emb_func  

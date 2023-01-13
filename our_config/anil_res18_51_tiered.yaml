@@ -9,14 +9,12 @@ device_ids: 1
 n_gpu: 2
 seed: 0
 deterministic: true
-data_root: /data/fewshot/tiered_imagenet
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
-train_episode: 2000
+train_episode: 5000
 test_episode: 600
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -32,7 +30,6 @@ augment_times_query: 1
 data_root: /data/fewshot/tiered_imagenet
 #! optimizer
 lr_scheduler:
-lr_scheduler:
   kwargs:
     gamma: 1.0
     step_size: 20
@@ -41,7 +38,7 @@ optimizer:
   kwargs:
     lr: 0.001
   name: Adam
-  other: null
+  other: ~
 #! backbone
 backbone:
   kwargs:
@@ -65,9 +62,9 @@ result_root: ./results
 #! other
 log_interval: 100
 log_level: info
-log_name: null
+log_name: ~
 log_paramerter: false
-pretrain_path: null
+pretrain_path: ~
 resume: false
 resume_path: ~
 save_interval: 10

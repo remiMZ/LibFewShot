@@ -11,12 +11,12 @@ n_gpu: 1
 seed: 0
 deterministic: true
 #! basic
-batch_size: 128
-episode_size: 4
 epoch: 100
 test_epoch: 5
 train_episode: 2000
 test_episode: 600
+batch_size: 64
+episode_size: 4
 shot_num: 1
 way_num: 5
 query_num: 15
@@ -36,12 +36,11 @@ lr_scheduler:
     gamma: 0.5
     step_size: 50
   name: StepLR
-
 optimizer:
   kwargs:
     lr: 0.001
   name: Adam
-  other: null
+  other: ~
 #! backbone
 backbone:
   kwargs:
@@ -58,14 +57,13 @@ result_root: ./results
 #! other
 log_interval: 100
 log_level: info
-log_name: null
+log_name: ~
 log_paramerter: false
 pretrain_path: ~
 resume: false
-tb_scale: 3.3333333333333335
-tag: null
-workers: 16
 resume_path: ~
+tb_scale: 3.3333333333333335
+tag: ~
 save_interval: 10
 save_part:
   - emb_func  
