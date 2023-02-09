@@ -2,6 +2,7 @@
 from .conv_four import Conv32F, Conv64F, R2D2Embedding
 from .resnet_12 import resnet12, resnet12woLSC
 from .resnet_18 import resnet18
+from .mlp_layer import MLP_layer
 from .wrn import WRN
 from .resnet_12_mtl_offcial import resnet12MTLofficial
 from .vit import ViT

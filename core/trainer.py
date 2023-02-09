@@ -69,7 +69,9 @@ class Trainer(object):
             self.best_test_acc,
         ) = self._init_optim(config)
         self.val_per_epoch = config["val_per_epoch"]
-
+        #wzt:
+        self.log_test = config['log_test']
+        ##
     def train_loop(self, rank):
         """
         The normal train loop: train-val-test and save model when val-acc increases.
@@ -88,6 +90,9 @@ class Trainer(object):
                 print(
                     " * Acc@1 {:.3f} Best acc {:.3f}".format(val_acc, self.best_val_acc)
                 )
+            #wzt:
+            if self.log_test:
+            ##
                 print("============ Testing on the test set ============")
                 test_acc = self._validate(epoch_idx, is_test=True)
                 print(
@@ -173,16 +178,26 @@ class Trainer(object):
             # compute gradients
             self.optimizer.zero_grad()
             loss.backward()
-            nn.utils.clip_grad_norm_(self.model.parameters(), 2.0)
+            
+            #wzt:
+            clip_parameters = []
+            for name, param in self.model.named_parameters():
+                if name.split('.')[0]=='mlp_layer':
+                    continue
+                clip_parameters.append(param)
+            nn.utils.clip_grad_norm_(clip_parameters, 2.0)
+            ##
+            
+            # nn.utils.clip_grad_norm_(self.model.parameters(), 2.0)
             # for param in self.model.parameters():
             #     if (param.grad != param.grad).float().sum() != 0:  # nan detected
             #         param.grad.zero_()
             self.optimizer.step()
             meter.update("calc_time", time() - calc_begin)
-
             # measure accuracy and record loss
             meter.update("loss", loss.item())
             meter.update("acc1", acc)
+
 
             # measure elapsed time
             meter.update("batch_time", time() - end)
@@ -318,13 +333,18 @@ class Trainer(object):
             viz_path = os.path.join(log_path, "tfboard_files")
         else:
             # you should ensure that data_root name contains its true name
-            base_dir = "{}-{}-{}-{}-{}".format(
+            #wzt: modify base_dir for multi-dataset setting
+            base_dir = "{}-{}-{}-{}-{}-{}-{}-{}".format(
                 config["classifier"]["name"],
-                config["data_root"].split("/")[-1],
+                list(config["data_root"].values())[0].split("/")[-1],
+                list(config["data_root"].values())[1].split("/")[-1],
+                list(config["data_root"].values())[2].split("/")[-1],
                 config["backbone"]["name"],
+                config['mlp_layer']['name'],
                 config["way_num"],
                 config["shot_num"],
             )
+            ##
             result_dir = (
                 base_dir
                 + "{}-{}".format(
@@ -408,6 +428,7 @@ class Trainer(object):
         Returns:
             tuple: A tuple of the model and model's type.
         """
+        
         emb_func = get_instance(arch, "backbone", config)
         model_kwargs = {
             "way_num": config["way_num"],
@@ -419,6 +440,13 @@ class Trainer(object):
             "emb_func": emb_func,
             "device": self.device,
         }
+
+        #wzt:
+        if config['mlp_layer']['kwargs'] != None:
+            mlp_layer = get_instance(arch, "mlp_layer", config)
+            model_kwargs['mlp_layer'] = mlp_layer
+        ##
+
         model = get_instance(arch, "classifier", config, **model_kwargs)
 
         print(model)
@@ -525,6 +553,7 @@ class Trainer(object):
             optimizer, self.config
         )  # if config['warmup']==0, scheduler will be a normal lr_scheduler, jump into this class for details
         print(optimizer)
+        
         from_epoch = -1
         best_val_acc = float("-inf")
         best_test_acc = float("-inf")
