@@ -71,6 +71,12 @@ class Baseline(FinetuningModel):
         target = target.to(self.device)
 
         feat = self.emb_func(image)
+        
+        #wzt:
+        if hasattr(self, 'mlp_layer'):
+            feat = self.mlp_layer(feat)
+        ##
+        
         output = self.classifier(feat)
         loss = self.loss_func(output, target)
         acc = accuracy(output, target)

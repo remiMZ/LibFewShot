@@ -74,8 +74,9 @@ def get_dataloader(config, mode, model_type, distribute):
     trfms_list.append(transforms.Normalize(mean=MEAN, std=STD))
     trfms = transforms.Compose(trfms_list)
 
+    #wzt:
     dataset = GeneralDataset(
-        data_root=config["data_root"],
+        data_root=config["data_root"][mode],
         mode=mode,
         use_memory=config["use_memory"],
     )
